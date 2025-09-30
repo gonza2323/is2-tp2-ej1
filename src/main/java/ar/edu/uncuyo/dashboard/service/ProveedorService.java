@@ -1,5 +1,6 @@
 package ar.edu.uncuyo.dashboard.service;
 
+import ar.edu.uncuyo.dashboard.dto.DireccionDto;
 import ar.edu.uncuyo.dashboard.dto.ProveedorDto;
 import ar.edu.uncuyo.dashboard.entity.Direccion;
 import ar.edu.uncuyo.dashboard.entity.Proveedor;
@@ -44,6 +45,21 @@ public class ProveedorService {
         Proveedor proveedor = proveedorMapper.toEntity(proveedorDto);
         personaService.crearPersona(proveedor, proveedorDto.getPersona());
         proveedor.setDireccion(direccion);
+
+        proveedorRepository.save(proveedor);
+    }
+
+    @Transactional
+    public void modificarProveedor(ProveedorDto proveedorDto) {
+        Proveedor proveedor = buscarProveedor(proveedorDto.getId());
+        proveedorMapper.updateEntityFromDto(proveedorDto, proveedor);
+
+        proveedorDto.getPersona().setId(proveedor.getId());
+        personaService.modificarPersona(proveedor, proveedorDto.getPersona());
+
+        DireccionDto direccionDto = proveedorDto.getDireccion();
+        direccionDto.setId(proveedor.getDireccion().getId());
+        direccionService.modificarDireccion(direccionDto);
 
         proveedorRepository.save(proveedor);
     }

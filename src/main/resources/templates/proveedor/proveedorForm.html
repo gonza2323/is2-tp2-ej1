@@ -1,7 +1,7 @@
 <form xmlns:th="http://www.thymeleaf.org"
       th:fragment="proveedorForm(actionUrl, readOnly)"
       th:action="@{${actionUrl}}" th:object="${proveedor}" method="post">
-    <input type="hidden" th:field="*{persona.id}" />
+    <input type="hidden" th:field="*{id}" />
 
     <div class="form-row">
         <div class="form-group col-md-6">

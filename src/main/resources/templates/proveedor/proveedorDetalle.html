@@ -5,7 +5,7 @@
       layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='proveedores')}">
 
 <head>
-    <title>Editar Proveedor</title>
+    <title>Detalle Proveedor</title>
 </head>
 
 <body id="page-top">
@@ -16,10 +16,10 @@
     <div th:if="${msgError}" th:text="${msgError}" class="alert alert-danger" role="alert">MENSAJE ERROR</div>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Editar Proveedor</h1>
+    <h1 class="h3 mb-4 text-gray-800">Detalle Proveedor</h1>
 
     <!-- Formulario -->
-    <ul th:replace="~{proveedor/proveedorForm :: proveedorForm(actionUrl='/proveedores/edit', readOnly=false)}"></ul>
+    <ul th:replace="~{proveedor/proveedorForm :: proveedorForm(actionUrl='#', readOnly=true)}"></ul>
 
 </div>
 

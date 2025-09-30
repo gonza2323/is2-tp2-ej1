@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {DireccionMapper.class})
 public interface ProveedorMapper {
     @Mapping(target = "direccion", ignore = true)
     @Mapping(target = "eliminado", ignore = true)
@@ -18,7 +18,6 @@ public interface ProveedorMapper {
     @Mapping(target = "eliminado", ignore = true)
     void updateEntityFromDto(ProveedorDto dto, @MappingTarget Proveedor proveedor);
 
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "persona.id", source = "id")
     @Mapping(target = "persona.nombre", source = "nombre")
     @Mapping(target = "persona.apellido", source = "apellido")

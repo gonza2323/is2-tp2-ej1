@@ -28,8 +28,7 @@ public class EmpresaService {
 
     @Transactional
     public EmpresaDto buscarEmpresaDto(Long id) {
-        Empresa empresa = empresaRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException("Empresa no encontrada"));
+        Empresa empresa = buscarEmpresa(id);
         return empresaMapper.toDto(empresa);
     }
 
@@ -41,7 +40,6 @@ public class EmpresaService {
 
     @Transactional
     public Empresa crearEmpresa(EmpresaDto empresaDto) {
-
         Direccion direccion = direccionService.crearDireccion(empresaDto.getDireccion());
 
         Empresa empresa = empresaMapper.toEntity(empresaDto);
@@ -52,8 +50,7 @@ public class EmpresaService {
 
     @Transactional
     public void modificarEmpresa(EmpresaDto empresaDto){
-        Empresa empresa = empresaRepository.findByIdAndEliminadoFalse(empresaDto.getId())
-                .orElseThrow(() -> new BusinessException("Empresa no encontrada"));
+        Empresa empresa = buscarEmpresa(empresaDto.getId());
 
         empresaMapper.updateEntityFromDto(empresaDto, empresa);
 

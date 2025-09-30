@@ -20,6 +20,7 @@ public class ProveedorController {
     private final ProveedorService proveedorService;
 
     private final String vistaLista = "/proveedor/proveedorLista";
+    private final String vistaDetalle = "/proveedor/proveedorDetalle";
     private final String vistaAlta = "/proveedor/proveedorAlta";
     private final String vistaEdicion = "/proveedor/proveedorEdit";
     private final String redirectLista = "/proveedores";
@@ -31,6 +32,12 @@ public class ProveedorController {
     @GetMapping("")
     public String listarProveedores(Model model) {
         return prepararVistaLista(model);
+    }
+
+    @GetMapping("/{id}")
+    public String detalleProveedor(Model model, @PathVariable Long id) {
+        ProveedorDto proveedor = proveedorService.buscarProveedorDto(id);
+        return prepararVistaDetalle(model, proveedor);
     }
 
     @GetMapping("/alta")
@@ -59,6 +66,24 @@ public class ProveedorController {
             System.out.println(e.getMessage());
             model.addAttribute("msgError", "Error de sistema");
             return prepararVistaFormularioAlta(model, proveedor);
+        }
+    }
+
+    @PostMapping("/edit")
+    public String modificarProveedor(Model model, @Valid @ModelAttribute("proveedor") ProveedorDto proveedor, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return prepararVistaFormularioEdicion(model, proveedor);
+
+        try {
+            proveedorService.modificarProveedor(proveedor);
+            return "redirect:" + redirectLista;
+        } catch (BusinessException e) {
+            model.addAttribute("msgError", e.getMessage());
+            return prepararVistaFormularioEdicion(model, proveedor);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            model.addAttribute("msgError", "Error de sistema");
+            return prepararVistaFormularioEdicion(model, proveedor);
         }
     }
 
@@ -116,5 +141,10 @@ public class ProveedorController {
     private String prepararVistaFormularioEdicion(Model model, ProveedorDto proveedor) {
         prepararVistaFormulario(model, proveedor);
         return vistaEdicion;
+    }
+
+    private String prepararVistaDetalle(Model model, ProveedorDto proveedor) {
+        prepararVistaFormulario(model, proveedor);
+        return vistaDetalle;
     }
 }
