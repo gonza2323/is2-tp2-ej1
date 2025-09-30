@@ -8,9 +8,11 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByCuentaAndEliminadoFalse(String nombreUsuario);
+    boolean existsByCuentaAndIdNotAndEliminadoFalse(String correoElectronico, Long id);
 
     Optional<Usuario> findByIdAndEliminadoFalse(Long id);
     Optional<Usuario> findByCuentaAndEliminadoFalse(String nombre);
 
     List<Usuario> findAllByEliminadoFalseOrderByApellidoAscNombreAsc();
+
 }

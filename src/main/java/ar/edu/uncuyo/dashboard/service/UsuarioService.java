@@ -22,10 +22,14 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UsuarioDto buscarUsuarioDto(Long id) {
-        Usuario usuario = usuarioRepository.findByIdAndEliminadoFalse(id)
+    public Usuario buscarUsuario(Long id) {
+        return usuarioRepository.findByIdAndEliminadoFalse(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 
+    @Transactional
+    public UsuarioDto buscarUsuarioDto(Long id) {
+        Usuario usuario = buscarUsuario(id);
         return usuarioMapper.toDto(usuario);
     }
 
@@ -40,12 +44,23 @@ public class UsuarioService {
         validarDatos(usuarioDto);
 
         Usuario usuario = usuarioMapper.toEntity(usuarioDto);
-        personaService.prepararPersona(usuario, usuarioDto.getPersona());
+        personaService.crearPersona(usuario, usuarioDto.getPersona());
 
         String clave = passwordEncoder.encode(usuarioDto.getClave());
         usuario.setCuenta(usuarioDto.getPersona().getCorreoElectronico());
         usuario.setClave(clave);
 
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public void modificarUsuario(UsuarioDto usuarioDto) {
+        validarDatos(usuarioDto);
+
+        Usuario usuario = buscarUsuario(usuarioDto.getId());
+        personaService.modificarPersona(usuario, usuarioDto);
+
+        usuario.setCuenta(usuarioDto.getCorreoElectronico());
         usuarioRepository.save(usuario);
     }
 
@@ -57,5 +72,17 @@ public class UsuarioService {
     private void validarDatos(UsuarioCreateFormDto usuarioDto) {
         if (!usuarioDto.getClave().equals(usuarioDto.getConfirmacionClave()))
             throw new BusinessException("Las contraseñas no coinciden");
+
+        if (usuarioRepository.existsByCuentaAndEliminadoFalse(usuarioDto.getPersona().getCorreoElectronico())) {
+            throw new BusinessException("La dirección de correo electrónico ya está en uso");
+        }
+    }
+
+    private void validarDatos(UsuarioDto usuarioDto) {
+        if (usuarioRepository.existsByCuentaAndIdNotAndEliminadoFalse(
+                usuarioDto.getCorreoElectronico(),
+                usuarioDto.getId())) {
+            throw new BusinessException("La dirección de correo electrónico ya está en uso");
+        }
     }
 }

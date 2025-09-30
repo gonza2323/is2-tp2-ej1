@@ -14,7 +14,21 @@ public class PersonaService {
     private final PersonaMapper personaMapper;
     private final PersonaRepository personaRepository;
 
-    public Persona prepararPersona(Persona persona, PersonaDto personaDto) {
+    public Persona crearPersona(Persona persona, PersonaDto personaDto) {
+        if (personaRepository.existsByCorreoElectronicoAndEliminadoFalse(personaDto.getCorreoElectronico()))
+            throw new BusinessException("La dirección de correo electrónico ya está en uso");
+
+        personaMapper.updateEntityFromDto(personaDto, persona);
+        return persona;
+    }
+
+    public Persona modificarPersona(Persona persona, PersonaDto personaDto) {
+        if (personaRepository.existsByCorreoElectronicoAndIdNotAndEliminadoFalse(
+                personaDto.getCorreoElectronico(),
+                personaDto.getId())) {
+            throw new BusinessException("La dirección de correo electrónico ya está en uso");
+        };
+
         personaMapper.updateEntityFromDto(personaDto, persona);
         return persona;
     }

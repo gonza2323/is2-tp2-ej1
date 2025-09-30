@@ -5,7 +5,7 @@
       layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='usuarios')}">
 
 <head>
-    <title>SB Admin 2 - Alta Usuario</title>
+    <title>Alta Usuario</title>
 </head>
 
 <body id="page-top">
@@ -19,7 +19,7 @@
     <h1 class="h3 mb-4 text-gray-800">Alta Usuario</h1>
 
     <!-- Formulario -->
-    <ul th:replace="~{usuario/usuarioForm :: usuarioForm(actionUrl='/usuarios/alta', readOnly=false)}"></ul>
+    <ul th:replace="~{usuario/usuarioCreateForm :: usuarioCreateForm(actionUrl='/usuarios/alta', readOnly=false)}"></ul>
 
 </div>
 

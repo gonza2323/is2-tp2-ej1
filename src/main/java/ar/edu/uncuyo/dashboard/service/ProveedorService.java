@@ -42,7 +42,7 @@ public class ProveedorService {
         Direccion direccion = direccionService.crearDireccion(proveedorDto.getDireccion());
 
         Proveedor proveedor = proveedorMapper.toEntity(proveedorDto);
-        personaService.prepararPersona(proveedor, proveedorDto.getPersona());
+        personaService.crearPersona(proveedor, proveedorDto.getPersona());
         proveedor.setDireccion(direccion);
 
         proveedorRepository.save(proveedor);

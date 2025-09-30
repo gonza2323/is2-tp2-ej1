@@ -5,7 +5,7 @@
       layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='usuarios')}">
 
 <head>
-    <title>SB Admin 2 - Editar Usuario</title>
+    <title>Editar Usuario</title>
 </head>
 
 <body id="page-top">
@@ -19,7 +19,7 @@
     <h1 class="h3 mb-4 text-gray-800">Editar Usuario</h1>
 
     <!-- Formulario -->
-    <ul th:replace="~{usuario/usuarioForm :: usuarioForm(actionUrl='/usuarios/edit', readOnly=false)}"></ul>
+    <ul th:replace="~{usuario/usuarioEditForm :: usuarioEditForm(actionUrl='/usuarios/edit', readOnly=false)}"></ul>
 
 </div>
 

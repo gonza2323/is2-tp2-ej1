@@ -1,0 +1,44 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:fragment="usuarioEditForm(actionUrl, readOnly)"
+      th:action="@{${actionUrl}}" th:object="${usuario}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="nombre">Nombre *</label>
+            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('nombre')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('nombre')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="apellido">Apellido *</label>
+            <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('apellido')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('apellido')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="correoElectronico">Correo electrónico *</label>
+            <input type="email" th:field="*{correoElectronico}" class="form-control" id="correoElectronico" placeholder="Correo electrónico"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('correoElectronico')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('correoElectronico')}" th:text="${err}"></div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="telefono">Teléfono</label>
+            <input type="text" th:field="*{telefono}" class="form-control" id="telefono" placeholder="Teléfono"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('telefono')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('telefono')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a th:if="${!readOnly}" th:href="@{/usuarios}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
+        <button th:if="${!readOnly}" type="submit" class="btn btn-primary radius">Aceptar</button>
+
+        <a th:if="${readOnly}" th:href="@{/usuarios}" class="btn btn-primary radius">Aceptar</a>
+    </div>
+
+</form>
