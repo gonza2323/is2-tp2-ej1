@@ -1,0 +1,204 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:fragment="empresaForm(actionUrl, readOnly)"
+      th:action="@{${actionUrl}}" th:object="${empresa}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="form-group">
+        <label for="razonSocial">Razón Social *</label>
+        <input type="text" th:field="*{razonSocial}" class="form-control" id="razonSocial" placeholder="Razón Social"  th:disabled="${readOnly}">
+        <div th:if="${#fields.hasErrors('razonSocial')}" class="text-danger mt-1"
+             th:each="err : ${#fields.errors('razonSocial')}" th:text="${err}"></div>
+    </div>
+
+    <div class="form-row">
+        <input type="hidden" th:field="*{direccion.id}" />
+
+        <div class="form-group col-md-3">
+            <label for="pais">País *</label>
+            <select th:field="*{direccion.paisId}" class="form-control" id="pais" th:disabled="${readOnly}">
+                <option value="">Seleccione país</option>
+                <option th:each="p : ${paises}" th:value="${p.id}" th:text="${p.nombre}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('direccion.paisId')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.paisId')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="provincia">Provincia *</label>
+            <select th:field="*{direccion.provinciaId}" class="form-control" id="provincia" th:disabled="${readOnly}">
+                <option value="">Seleccione provincia</option>
+                <option th:each="prov : ${provincias}" th:value="${prov.id}" th:text="${prov.nombre}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('direccion.provinciaId')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.provinciaId')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="departamento">Departamento *</label>
+            <select th:field="*{direccion.departamentoId}" class="form-control" id="departamento" th:disabled="${readOnly}">
+                <option value="">Seleccione departamento</option>
+                <option th:each="dept : ${departamentos}" th:value="${dept.id}" th:text="${dept.nombre}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('direccion.departamentoId')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.departamentoId')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="localidad">Localidad *</label>
+            <select th:field="*{direccion.localidadId}" class="form-control" id="localidad" th:disabled="${readOnly}">
+                <option value="">Seleccione localidad</option>
+                <option th:each="loc : ${localidades}" th:value="${loc.id}" th:text="${loc.nombre}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('direccion.localidadId')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.localidadId')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="calle">Calle *</label>
+            <input type="text" th:field="*{direccion.calle}" class="form-control" id="calle"
+                   placeholder="Calle" th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('direccion.calle')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.calle')}" th:text="${err}"></div>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="numeracion">Numeración *</label>
+            <input type="text" th:field="*{direccion.numeracion}" class="form-control" id="numeracion"
+                   placeholder="Nro" th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('direccion.numeracion')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.numeracion')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="manzanaPiso">Manzana/Piso</label>
+            <input type="text" th:field="*{direccion.manzanaPiso}" class="form-control" id="manzanaPiso"
+                   placeholder="Manzana/Piso" th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('direccion.manzanaPiso')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.manzanaPiso')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="casaDepartamento">Casa/Departamento</label>
+            <input type="text" th:field="*{direccion.casaDepartamento}" class="form-control"
+                   id="casaDepartamento" placeholder="Casa/Depto" th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('direccion.casaDepartamento')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.casaDepartamento')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="barrio">Barrio</label>
+            <input type="text" th:field="*{direccion.barrio}" class="form-control" id="barrio"
+                   placeholder="Barrio" th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('direccion.barrio')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.barrio')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="referencia">Referencia</label>
+            <input type="text" th:field="*{direccion.referencia}" class="form-control" id="referencia"
+                   placeholder="Referencia" th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('direccion.referencia')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('direccion.referencia')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a th:if="${!readOnly}" th:href="@{/empresas}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
+        <button th:if="${!readOnly}" type="submit" class="btn btn-primary radius">Aceptar</button>
+
+        <a th:if="${readOnly}" th:href="@{/empresas}" class="btn btn-primary radius">Aceptar</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const paisSelect = document.getElementById('pais');
+            const provinciaSelect = document.getElementById('provincia');
+            const departamentoSelect = document.getElementById('departamento');
+            const localidadSelect = document.getElementById('localidad');
+
+            const provinciasByPais = {};
+            const departamentosByProvincia = {};
+            const localidadesByDepartamento = {};
+
+            // Utility to populate a select
+            function populateSelect(select, items, placeholder) {
+                select.innerHTML = '';
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = placeholder;
+                select.appendChild(defaultOption);
+
+                items.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.nombre;
+                    select.appendChild(option);
+                });
+            }
+
+            // Fetch provincias when pais changes
+            paisSelect.addEventListener('change', function () {
+                const paisId = this.value;
+                if (!paisId) {
+                    populateSelect(provinciaSelect, [], 'Seleccione provincia');
+                    populateSelect(departamentoSelect, [], 'Seleccione departamento');
+                    populateSelect(localidadSelect, [], 'Seleccione localidad');
+                    return;
+                }
+
+                fetch(`/provincias?paisId=${paisId}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        populateSelect(provinciaSelect, data, 'Seleccione provincia');
+                        populateSelect(departamentoSelect, [], 'Seleccione departamento');
+                        populateSelect(localidadSelect, [], 'Seleccione localidad');
+                    });
+            });
+
+            // Fetch departamentos when provincia changes
+            provinciaSelect.addEventListener('change', function () {
+                const provinciaId = this.value;
+                if (!provinciaId) {
+                    populateSelect(departamentoSelect, [], 'Seleccione departamento');
+                    populateSelect(localidadSelect, [], 'Seleccione localidad');
+                    return;
+                }
+
+                fetch(`/departamentos?provinciaId=${provinciaId}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        populateSelect(departamentoSelect, data, 'Seleccione departamento');
+                        populateSelect(localidadSelect, [], 'Seleccione localidad');
+                    });
+            });
+
+            // Fetch localidades when departamento changes
+            departamentoSelect.addEventListener('change', function () {
+                const departamentoId = this.value;
+                if (!departamentoId) {
+                    populateSelect(localidadSelect, [], 'Seleccione localidad');
+                    return;
+                }
+
+                fetch(`/localidades?departamentoId=${departamentoId}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        populateSelect(localidadSelect, data, 'Seleccione localidad');
+                    });
+            });
+
+        });
+    </script>
+</form>

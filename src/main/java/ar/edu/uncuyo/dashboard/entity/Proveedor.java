@@ -19,6 +19,6 @@ public class Proveedor extends Persona {
     private String cuit;
 
     @JoinColumn(nullable = false)
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Direccion direccion;
 }

@@ -30,7 +30,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul th:replace="~{fragments/sidebar :: sidebar}"></ul>
+    <ul th:replace="~{fragments/sidebar :: sidebar(activePage=${activePage})}"></ul>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='empresas')}">
+
+<head>
+    <title>SB Admin 2 - ABM Empresa</title>
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content"
+     class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-flex align-items-center mb-3 flex-wrap">
+        <h1 class="h3 m-0 mr-3 text-gray-800">Empresas</h1>
+        <a th:href="@{/empresas/alta}" class="btn btn-primary radius">Agregar empresa</a>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Razón Social</th>
+                <th>Localidad</th>
+                <th>Departamento</th>
+                <th>Provincia</th>
+                <th>País</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="empresa : ${empresas}">
+                <td th:text="${empresa.razonSocial}">Nombre</td>
+                <td th:text="${empresa.nombreLocalidad}">Localidad</td>
+                <td th:text="${empresa.nombreDepartamento}">Departamento</td>
+                <td th:text="${empresa.nombreProvincia}">Provincia</td>
+                <td th:text="${empresa.nombrePais}">País</td>
+                <td>
+                    <a th:href="@{/empresas/{id}(id=${empresa.id})}" class="btn btn-primary btn-sm me-1" title="Ver">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a th:href="@{/empresas/{id}/edit(id=${empresa.id})}" class="btn btn-warning btn-sm me-1" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <form th:action="@{/empresas/{id}/baja(id=${empresa.id})}" method="post" style="display:inline"
+                          th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar esta empresa?\')'">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+
+</html>
