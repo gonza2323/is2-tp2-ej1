@@ -1,0 +1,60 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:fragment="usuarioForm(actionUrl, readOnly)"
+      th:action="@{${actionUrl}}" th:object="${usuario}" method="post">
+    <input type="hidden" th:field="*{persona.id}" />
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="persona.nombre">Nombre *</label>
+            <input type="text" th:field="*{persona.nombre}" class="form-control" id="persona.nombre" placeholder="Nombre"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('persona.nombre')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('persona.nombre')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="persona.apellido">Apellido *</label>
+            <input type="text" th:field="*{persona.apellido}" class="form-control" id="persona.apellido" placeholder="Apellido"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('persona.apellido')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('persona.apellido')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="persona.correoElectronico">Correo electrónico *</label>
+            <input type="email" th:field="*{persona.correoElectronico}" class="form-control" id="persona.correoElectronico" placeholder="Correo electrónico"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('persona.correoElectronico')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('persona.correoElectronico')}" th:text="${err}"></div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="persona.telefono">Teléfono</label>
+            <input type="text" th:field="*{persona.telefono}" class="form-control" id="persona.telefono" placeholder="Teléfono"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('persona.telefono')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('persona.telefono')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="clave">Contraseña *</label>
+            <input type="password" th:field="*{clave}" class="form-control" id="clave" placeholder="Contraseña"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('clave')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('clave')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="confirmacionClave">Confirmación contraseña *</label>
+            <input type="password" th:field="*{confirmacionClave}" class="form-control" id="confirmacionClave" placeholder="Confirmación contraseña"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('confirmacionClave')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('confirmacionClave')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a th:if="${!readOnly}" th:href="@{/usuarios}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
+        <button th:if="${!readOnly}" type="submit" class="btn btn-primary radius">Aceptar</button>
+
+        <a th:if="${readOnly}" th:href="@{/usuarios}" class="btn btn-primary radius">Aceptar</a>
+    </div>
+
+</form>
