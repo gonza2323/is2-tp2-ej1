@@ -24,6 +24,7 @@ public class EmpresaController {
     private final LocalidadService localidadService;
 
     private final String vistaLista = "/empresa/empresaLista";
+    private final String vistaDetalle = "/empresa/empresaDetalle";
     private final String vistaAlta = "/empresa/empresaAlta";
     private final String vistaEdicion = "/empresa/empresaEdit";
     private final String redirectLista = "/empresas";
@@ -31,6 +32,12 @@ public class EmpresaController {
     @GetMapping("")
     public String listarEmpresas(Model model) {
         return prepararVistaLista(model);
+    }
+
+    @GetMapping("/{id}")
+    public String detalleEmpresa(Model model, @PathVariable Long id) {
+        EmpresaDto empresa = empresaService.buscarEmpresaDto(id);
+        return prepararVistaDetalle(model, empresa);
     }
 
     @GetMapping("/alta")
@@ -134,5 +141,10 @@ public class EmpresaController {
     private String prepararVistaFormularioEdicion(Model model, EmpresaDto empresa) {
         prepararVistaFormulario(model, empresa);
         return vistaEdicion;
+    }
+
+    private String prepararVistaDetalle(Model model, EmpresaDto empresa) {
+        prepararVistaFormulario(model, empresa);
+        return vistaDetalle;
     }
 }
