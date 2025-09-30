@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='usuarios')}">
+
+<head>
+    <title>Alta Proveedor</title>
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content"
+     class="container-fluid">
+
+    <div th:if="${msgError}" th:text="${msgError}" class="alert alert-danger" role="alert">MENSAJE ERROR</div>
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Alta Proveedor</h1>
+
+    <!-- Formulario -->
+    <ul th:replace="~{proveedor/proveedorForm :: proveedorForm(actionUrl='/proveedores/alta', readOnly=false)}"></ul>
+
+</div>
+
+</body>
+
+</html>

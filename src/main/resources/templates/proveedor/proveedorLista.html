@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='usuarios')}">
+
+<head>
+    <title>ABM Proveedor</title>
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content"
+     class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-flex align-items-center mb-3 flex-wrap">
+        <h1 class="h3 m-0 mr-3 text-gray-800">Proveedores</h1>
+        <a th:href="@{/proveedores/alta}" class="btn btn-primary radius">Agregar proveedor</a>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>CUIT</th>
+                <th>País</th>
+                <th>Provincia</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="proveedor : ${proveedores}">
+                <td th:text="${proveedor.persona.apellido}">Apellido</td>
+                <td th:text="${proveedor.persona.nombre}">Nombre</td>
+                <td th:text="${proveedor.persona.correoElectronico}">Email</td>
+                <td th:text="${proveedor.cuit}">CUIT</td>
+                <td th:text="${proveedor.nombrePais}">País</td>
+                <td th:text="${proveedor.nombreProvincia}">Provincia</td>
+                <td>
+                    <a th:href="@{/proveedores/{id}(id=${proveedor.id})}" class="btn btn-primary btn-sm me-1" title="Ver">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a th:href="@{/proveedores/{id}/edit(id=${proveedor.id})}" class="btn btn-warning btn-sm me-1" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <form th:action="@{/proveedores/{id}/baja(id=${proveedor.id})}" method="post" style="display:inline"
+                          th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar este proveedor?\')'">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+
+</html>
