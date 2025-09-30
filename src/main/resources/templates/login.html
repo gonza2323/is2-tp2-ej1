@@ -35,27 +35,23 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Inicio de sesión</h1>
                         </div>
-                        <div th:if="${param.error}"
-                             class="card bg-danger text-gray-100 shadow mb-4">
-                            <div class="card-body">
-                                Correo o contraseña incorrectos
-                            </div>
-                        </div>
+
+                        <div th:if="${param.error}" class="alert alert-danger" role="alert">Correo o contraseña incorrectos</div>
+
                         <form class="user" action="/login" method="post">
                             <div class="form-group">
                                 <input type="email" class="form-control form-control-user"
                                        id="exampleInputEmail" aria-describedby="emailHelp"
-                                       placeholder="Enter Email Address..." name="cuenta">
+                                       placeholder="Correo electrónico" name="cuenta">
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control form-control-user"
-                                       id="exampleInputPassword" placeholder="Password" name="clave">
+                                       id="exampleInputPassword" placeholder="Contraseña" name="clave">
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox small">
                                     <input type="checkbox" class="custom-control-input" id="customCheck">
-                                    <label class="custom-control-label" for="customCheck">Remember
-                                        Me</label>
+                                    <label class="custom-control-label" for="customCheck">Recuérdame</label>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-user btn-block">

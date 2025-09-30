@@ -1,5 +1,7 @@
 package ar.edu.uncuyo.dashboard.service;
 
+import ar.edu.uncuyo.dashboard.auth.CustomUserDetails;
+import ar.edu.uncuyo.dashboard.dto.CambiarClaveFormDto;
 import ar.edu.uncuyo.dashboard.dto.UsuarioCreateFormDto;
 import ar.edu.uncuyo.dashboard.dto.UsuarioDto;
 import ar.edu.uncuyo.dashboard.entity.Usuario;
@@ -8,8 +10,12 @@ import ar.edu.uncuyo.dashboard.mapper.UsuarioMapper;
 import ar.edu.uncuyo.dashboard.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -67,6 +73,37 @@ public class UsuarioService {
     @Transactional
     public void eliminarUsuario(Long id){
         personaService.eliminarPersona(id);
+    }
+
+    @Transactional
+    public void cambiarClave(CambiarClaveFormDto form){
+        Usuario usuario = buscarUsuarioActual();
+
+        String claveActual = passwordEncoder.encode(form.getClaveActual());
+        if (!passwordEncoder.matches(form.getClaveActual(), usuario.getClave()))
+            throw new BusinessException("La contraseña actual es incorrecta");
+
+        if (!form.getNuevaClave().equals(form.getConfirmacionClave()))
+            throw new BusinessException("Las contraseñas no coinciden");
+
+        if (form.getClaveActual().equals(form.getNuevaClave()))
+            throw new BusinessException("La nueva contraseña debe ser distinta a la actual");
+
+        String nuevaClave = passwordEncoder.encode(form.getNuevaClave());
+        usuario.setClave(nuevaClave);
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public Usuario buscarUsuarioActual() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated())
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        return buscarUsuario(userDetails.getId());
     }
 
     private void validarDatos(UsuarioCreateFormDto usuarioDto) {

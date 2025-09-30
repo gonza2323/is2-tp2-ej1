@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='cambiar-clave')}">
+
+<head>
+    <title>Cambiar clave</title>
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content"
+     class="container-fluid">
+
+    <div th:if="${msgError}" th:text="${msgError}" class="alert alert-danger" role="alert">MENSAJE ERROR</div>
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Cambiar clave</h1>
+
+    <form th:action="@{/cambiar-clave}" th:object="${cambiarClaveForm}" method="post">
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-8">
+                <label for="claveActual">Contraseña actual *</label>
+                <input type="password" th:field="*{claveActual}" class="form-control" id="claveActual" placeholder="Contraseña actual">
+                <div th:if="${#fields.hasErrors('claveActual')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('claveActual')}" th:text="${err}"></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-8">
+                <label for="nuevaClave">Nueva contraseña *</label>
+                <input type="password" th:field="*{nuevaClave}" class="form-control" id="nuevaClave" placeholder="Nueva contraseña">
+                <div th:if="${#fields.hasErrors('nuevaClave')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('nuevaClave')}" th:text="${err}"></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-8">
+                <label for="confirmacionClave">Confirmar nueva contraseña *</label>
+                <input type="password" th:field="*{confirmacionClave}" class="form-control" id="confirmacionClave" placeholder="Confirmar nueva contraseña">
+                <div th:if="${#fields.hasErrors('confirmacionClave')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('confirmacionClave')}" th:text="${err}"></div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="d-flex justify-content-end mt-3 col-lg-6 col-md-8">
+                <button type="submit" class="btn btn-primary radius">Aceptar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+
+</html>
