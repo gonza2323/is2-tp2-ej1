@@ -10,6 +10,11 @@
              th:each="err : ${#fields.errors('razonSocial')}" th:text="${err}"></div>
     </div>
 
+    <div class="mt-4 mb-4">
+        <hr class="my-2">
+        <h5 class="text-secondary">Dirección</h5>
+    </div>
+
     <div class="form-row">
         <input type="hidden" th:field="*{direccion.id}" />
 

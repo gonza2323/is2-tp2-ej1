@@ -26,8 +26,8 @@
             <tr>
                 <th>Apellido</th>
                 <th>Nombre</th>
-                <th>Email</th>
                 <th>CUIT</th>
+                <th>Email</th>
                 <th>País</th>
                 <th>Provincia</th>
                 <th>Acciones</th>
@@ -37,21 +37,21 @@
             <tr th:each="proveedor : ${proveedores}">
                 <td th:text="${proveedor.persona.apellido}">Apellido</td>
                 <td th:text="${proveedor.persona.nombre}">Nombre</td>
-                <td th:text="${proveedor.persona.correoElectronico}">Email</td>
                 <td th:text="${proveedor.cuit}">CUIT</td>
+                <td th:text="${proveedor.persona.correoElectronico}">Email</td>
                 <td th:text="${proveedor.nombrePais}">País</td>
                 <td th:text="${proveedor.nombreProvincia}">Provincia</td>
                 <td>
                     <a th:href="@{/proveedores/{id}(id=${proveedor.id})}" class="btn btn-primary btn-sm me-1" title="Ver">
-                        <i class="fas fa-eye"></i>
+                        <i class="fas fa-eye fa-fw"></i>
                     </a>
                     <a th:href="@{/proveedores/{id}/edit(id=${proveedor.id})}" class="btn btn-warning btn-sm me-1" title="Editar">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-edit fa-fw"></i>
                     </a>
                     <form th:action="@{/proveedores/{id}/baja(id=${proveedor.id})}" method="post" style="display:inline"
                           th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar este proveedor?\')'">
                         <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-trash fa-fw"></i>
                         </button>
                     </form>
                 </td>
