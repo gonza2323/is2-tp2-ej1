@@ -28,6 +28,10 @@ public class Direccion {
 
     private String referencia;
 
+    private Double latitud;
+
+    private Double longitud;
+
     private boolean eliminado;
 
     @JoinColumn(nullable = false)

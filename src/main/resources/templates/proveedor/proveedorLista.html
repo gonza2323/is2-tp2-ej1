@@ -28,8 +28,6 @@
                 <th>Nombre</th>
                 <th>CUIT</th>
                 <th>Email</th>
-                <th>País</th>
-                <th>Provincia</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -39,9 +37,17 @@
                 <td th:text="${proveedor.persona.nombre}">Nombre</td>
                 <td th:text="${proveedor.cuit}">CUIT</td>
                 <td th:text="${proveedor.persona.correoElectronico}">Email</td>
-                <td th:text="${proveedor.nombrePais}">País</td>
-                <td th:text="${proveedor.nombreProvincia}">Provincia</td>
                 <td>
+                    <a th:if="${proveedor.direccion.latitud != null and proveedor.direccion.longitud != null}"
+                       th:href="@{'https://www.google.com/maps?q=' + ${proveedor.direccion.latitud} + ',' + ${proveedor.direccion.longitud}}"
+                       target="_blank"
+                       class="btn btn-success btn-sm me-1" title="Ubicación">
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                    </a>
+                    <span th:if="${proveedor.direccion.latitud == null or proveedor.direccion.longitud == null}"
+                          class="btn btn-sm me-1" style="visibility:hidden">
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                    </span>
                     <a th:href="@{/proveedores/{id}(id=${proveedor.id})}" class="btn btn-primary btn-sm me-1" title="Ver">
                         <i class="fas fa-eye fa-fw"></i>
                     </a>

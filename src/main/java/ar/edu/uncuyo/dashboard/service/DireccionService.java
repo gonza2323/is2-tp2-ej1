@@ -31,6 +31,8 @@ public class DireccionService {
 
     @Transactional
     public Direccion crearDireccion(DireccionDto direccionDto) {
+        validar(direccionDto);
+
         Localidad localidad = localidadService.buscarLocalidad(direccionDto.getLocalidadId());
 
         Direccion direccion = direccionMapper.toEntity(direccionDto);
@@ -42,6 +44,8 @@ public class DireccionService {
 
     @Transactional
     public void modificarDireccion(DireccionDto direccionDto) {
+        validar(direccionDto);
+
         Direccion direccion = buscarDireccion(direccionDto.getId());
 
         Localidad localidad = localidadService.buscarLocalidad(direccionDto.getLocalidadId());
@@ -56,5 +60,26 @@ public class DireccionService {
         Direccion direccion = buscarDireccion(id);
         direccion.setEliminado(true);
         direccionRepository.save(direccion);
+    }
+
+    private void validar(DireccionDto direccion) {
+        Double lat = direccion.getLatitud();
+        Double lon = direccion.getLongitud();
+
+        if (lat == null && lon == null) {
+            return;
+        }
+
+        if (lat == null || lon == null) {
+            throw new BusinessException("Ingrese latitud y longitud, o ninguna de ellas");
+        }
+
+        if (lat < -90.0 || lat > 90.0) {
+            throw new BusinessException("La latitud debe ser entre -90° y 90°");
+        }
+
+        if (lon < -180.0 || lon > 180.0) {
+            throw new BusinessException("La longitud debe ser entre -180° y 180°.");
+        }
     }
 }

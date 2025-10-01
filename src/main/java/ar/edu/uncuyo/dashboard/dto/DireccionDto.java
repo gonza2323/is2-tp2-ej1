@@ -35,6 +35,10 @@ public class DireccionDto {
     @Size(max = 50, message = "Máximo 50 caracteres")
     private String referencia;
 
+    private Double latitud;
+
+    private Double longitud;
+
     @NotNull(message = "Debe seleccionar un país")
     private Long paisId;
 

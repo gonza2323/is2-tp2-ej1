@@ -25,21 +25,31 @@
             <thead class="table-light">
             <tr>
                 <th>Razón Social</th>
-                <th>Localidad</th>
-                <th>Departamento</th>
-                <th>Provincia</th>
                 <th>País</th>
+                <th>Provincia</th>
+                <th>Departamento</th>
+                <th>Localidad</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="empresa : ${empresas}">
                 <td th:text="${empresa.razonSocial}">Nombre</td>
-                <td th:text="${empresa.nombreLocalidad}">Localidad</td>
-                <td th:text="${empresa.nombreDepartamento}">Departamento</td>
-                <td th:text="${empresa.nombreProvincia}">Provincia</td>
                 <td th:text="${empresa.nombrePais}">País</td>
+                <td th:text="${empresa.nombreProvincia}">Provincia</td>
+                <td th:text="${empresa.nombreDepartamento}">Departamento</td>
+                <td th:text="${empresa.nombreLocalidad}">Localidad</td>
                 <td>
+                    <a th:if="${empresa.direccion.latitud != null and empresa.direccion.longitud != null}"
+                       th:href="@{'https://www.google.com/maps?q=' + ${empresa.direccion.latitud} + ',' + ${empresa.direccion.longitud}}"
+                       target="_blank"
+                       class="btn btn-success btn-sm me-1" title="Ubicación">
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                    </a>
+                    <span th:if="${empresa.direccion.latitud == null or empresa.direccion.longitud == null}"
+                          class="btn btn-sm me-1" style="visibility:hidden">
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                    </span>
                     <a th:href="@{/empresas/{id}(id=${empresa.id})}" class="btn btn-primary btn-sm me-1" title="Ver">
                         <i class="fas fa-eye fa-fw"></i>
                     </a>
