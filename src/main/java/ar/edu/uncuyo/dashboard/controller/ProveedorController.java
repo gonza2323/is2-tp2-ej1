@@ -4,6 +4,7 @@ import ar.edu.uncuyo.dashboard.dto.*;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.pdf.PdfGenerator;
 import ar.edu.uncuyo.dashboard.service.*;
+import ar.edu.uncuyo.dashboard.txt.TxtImporter;
 import com.itextpdf.text.DocumentException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class ProveedorController {
 
     private final ProveedorService proveedorService;
     private final PdfGenerator pdfGenerator;
+
 
     private final String vistaLista = "/proveedor/proveedorLista";
     private final String vistaDetalle = "/proveedor/proveedorDetalle";
@@ -127,6 +129,16 @@ public class ProveedorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }
+
+    @GetMapping("/importar")
+    public String importarProveedores(Model model) {
+        TxtImporter txtImporter = new TxtImporter();
+        List<ProveedorDto> proveedores = txtImporter.leerArchivo();
+
+        model.addAttribute("proveedores", proveedores);
+        return prepararVistaLista(model);
+    }
+
 
     private String prepararVistaLista(Model model) {
         List<ProveedorDto> proveedores = proveedorService.listarProveedoresDtos();

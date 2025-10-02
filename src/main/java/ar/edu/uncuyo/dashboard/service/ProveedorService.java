@@ -6,6 +6,7 @@ import ar.edu.uncuyo.dashboard.entity.Direccion;
 import ar.edu.uncuyo.dashboard.entity.Proveedor;
 import ar.edu.uncuyo.dashboard.mapper.ProveedorMapper;
 import ar.edu.uncuyo.dashboard.repository.ProveedorRepository;
+import ar.edu.uncuyo.dashboard.txt.TxtImporter;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class ProveedorService {
     private final ProveedorMapper proveedorMapper;
     private final PersonaService personaService;
     private final DireccionService direccionService;
+    private final TxtImporter txtImporter;
+
+
 
     @Transactional
     public Proveedor buscarProveedor(Long id) {
@@ -69,5 +73,18 @@ public class ProveedorService {
         Proveedor proveedor = buscarProveedor(id);
         proveedor.getDireccion().setEliminado(true);
         personaService.eliminarPersona(id);
+    }
+
+    public List<ProveedorDto> importarDesdeTxt() {
+        List<ProveedorDto> dtos = txtImporter.leerArchivo();
+
+        // mapear DTO -> entidad
+        List<Proveedor> entidades = dtos.stream()
+                .map(proveedorMapper::toEntity)
+                .toList();
+
+        proveedorRepository.saveAll(entidades);
+
+        return dtos;
     }
 }

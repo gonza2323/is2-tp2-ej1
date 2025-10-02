@@ -10,6 +10,7 @@ public interface LocalidadRepository extends JpaRepository<Localidad, Long> {
     boolean existsByNombreAndDepartamentoIdAndEliminadoFalse(String nombre, Long deparamentoId);
     boolean existsByNombreAndIdNotAndDepartamentoIdAndEliminadoFalse(String nombre, Long id, Long departamentoId);
 
+    Optional<Localidad> findByNombreAndEliminadoFalse(String nombre);
     Optional<Localidad> findByIdAndEliminadoFalse(Long id);
     List<Localidad> findAllByDepartamentoIdAndEliminadoFalseOrderByNombre(Long departamentoId);
 }
