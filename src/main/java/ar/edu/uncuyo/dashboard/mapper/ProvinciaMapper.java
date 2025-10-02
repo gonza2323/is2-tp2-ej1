@@ -25,6 +25,7 @@ public interface ProvinciaMapper {
 
     List<ProvinciaDto> toDtos(List<Provincia> provincias);
 
+    @Mapping(target = "paisId", source = "pais.id")
     @Mapping(target = "paisNombre", source = "pais.nombre")
     ProvinciaResumenDto toSummaryDto(Provincia province);
 

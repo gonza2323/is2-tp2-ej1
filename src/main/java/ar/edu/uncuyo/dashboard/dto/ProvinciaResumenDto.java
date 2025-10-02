@@ -14,5 +14,7 @@ public class ProvinciaResumenDto {
 
     private String nombre;
 
+    private Long paisId;
+
     private String paisNombre;
 }

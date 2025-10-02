@@ -79,7 +79,7 @@ public class LocalidadController {
         }
     }
 
-    @PostMapping("localidades/{id}/baja")
+    @PostMapping("/localidades/{id}/baja")
     public String eliminarLocalidad(Model model, @PathVariable Long id) {
         try {
             localidadService.eliminarLocalidad(id);

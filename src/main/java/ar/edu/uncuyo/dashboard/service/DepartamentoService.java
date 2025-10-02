@@ -1,6 +1,7 @@
 package ar.edu.uncuyo.dashboard.service;
 
 import ar.edu.uncuyo.dashboard.dto.DepartamentoDto;
+import ar.edu.uncuyo.dashboard.dto.DepartamentoResumenDto;
 import ar.edu.uncuyo.dashboard.entity.Departamento;
 import ar.edu.uncuyo.dashboard.entity.Provincia;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
@@ -20,6 +21,24 @@ public class DepartamentoService {
     private final DepartamentoMapper departamentoMapper;
 
     @Transactional
+    public Departamento buscarDepartamento(Long id) {
+        return departamentoRepository.findByIdAndEliminadoFalse(id)
+                .orElseThrow(() -> new BusinessException("NoExiste.departamento"));
+    }
+
+    @Transactional
+    public DepartamentoDto buscarDepartamentoDto(Long id) {
+        Departamento departamento = buscarDepartamento(id);
+        return departamentoMapper.toDto(departamento);
+    }
+
+    @Transactional
+    public List<DepartamentoResumenDto> listarDepartamentosDtos() {
+        List<Departamento> departamentos = departamentoRepository.findAllByEliminadoFalseOrderByNombre();
+        return departamentoMapper.toSummaryDtos(departamentos);
+    }
+
+    @Transactional
     public void crearDepartamento(DepartamentoDto departamentoDto) {
         if (departamentoRepository.existsByNombreAndProvinciaIdAndEliminadoFalse(departamentoDto.getNombre(), departamentoDto.getProvinciaId()))
             throw new BusinessException("Ya existe un departamento con ese nombre en esa provincia");
@@ -27,15 +46,32 @@ public class DepartamentoService {
         Provincia provincia = provinciaService.buscarProvincia(departamentoDto.getProvinciaId());
 
         Departamento departamento = departamentoMapper.toEntity(departamentoDto);
-        departamento.setId(null);
         departamento.setProvincia(provincia);
-        departamento.setEliminado(false);
         departamentoRepository.save(departamento);
     }
 
-    public Departamento buscarDepartamento(Long id) {
-        return departamentoRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException("NoExiste.departamento"));
+    @Transactional
+    public void modificarDepartamento(DepartamentoDto departamentoDto){
+        Departamento departamento = buscarDepartamento(departamentoDto.getId());
+
+        if (departamentoRepository.existsByNombreAndIdNotAndProvinciaIdAndEliminadoFalse(
+                departamentoDto.getNombre(),
+                departamentoDto.getId(),
+                departamentoDto.getProvinciaId()))
+            throw new BusinessException("Ya existe un departamento con ese nombre en esa provincia");
+
+        Provincia provincia = provinciaService.buscarProvincia(departamentoDto.getProvinciaId());
+
+        departamentoMapper.updateEntityFromDto(departamentoDto, departamento);
+        departamento.setProvincia(provincia);
+        departamentoRepository.save(departamento);
+    }
+
+    @Transactional
+    public void eliminarDepartamento(Long id) {
+        Departamento departamento = buscarDepartamento(id);
+        departamento.setEliminado(true);
+        departamentoRepository.save(departamento);
     }
 
     public List<DepartamentoDto> buscarDepartamentosPorProvincia(Long provinciaId) {

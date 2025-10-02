@@ -14,6 +14,10 @@ public class DepartamentoResumenDto {
 
     private String nombre;
 
+    private Long paisId;
+
+    private Long provinciaId;
+
     private String paisNombre;
 
     private String provinciaNombre;

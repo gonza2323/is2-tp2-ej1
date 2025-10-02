@@ -1,6 +1,6 @@
 <form xmlns:th="http://www.thymeleaf.org"
-      th:fragment="localidadForm(actionUrl, readOnly)"
-      th:action="@{${actionUrl}}" th:object="${localidad}" method="post">
+      th:fragment="departamentoForm(actionUrl, readOnly)"
+      th:action="@{${actionUrl}}" th:object="${departamento}" method="post">
     <input type="hidden" th:field="*{id}" />
 
     <div class="form-row">
@@ -9,12 +9,6 @@
             <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre"  th:disabled="${readOnly}">
             <div th:if="${#fields.hasErrors('nombre')}" class="text-danger mt-1"
                  th:each="err : ${#fields.errors('nombre')}" th:text="${err}"></div>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="codigoPostal">Código Postal</label>
-            <input type="text" th:field="*{codigoPostal}" class="form-control" id="codigoPostal" placeholder="Código Postal"  th:disabled="${readOnly}">
-            <div th:if="${#fields.hasErrors('codigoPostal')}" class="text-danger mt-1"
-                 th:each="err : ${#fields.errors('codigoPostal')}" th:text="${err}"></div>
         </div>
     </div>
 
@@ -40,34 +34,21 @@
             <div th:if="${#fields.hasErrors('provinciaId')}" class="text-danger mt-1"
                  th:each="err : ${#fields.errors('provinciaId')}" th:text="${err}"></div>
         </div>
-
-        <div class="form-group col-md-3">
-            <label for="departamento">Departamento *</label>
-            <select th:field="*{departamentoId}" class="form-control" id="departamento" th:disabled="${readOnly}">
-                <option value="">Seleccione departamento</option>
-                <option th:each="dept : ${departamentos}" th:value="${dept.id}" th:text="${dept.nombre}"></option>
-            </select>
-            <div th:if="${#fields.hasErrors('departamentoId')}" class="text-danger mt-1"
-                 th:each="err : ${#fields.errors('departamentoId')}" th:text="${err}"></div>
-        </div>
     </div>
 
     <div class="d-flex justify-content-end mt-3">
-        <a th:if="${!readOnly}" th:href="@{/localidades}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
+        <a th:if="${!readOnly}" th:href="@{/departamentos}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
         <button th:if="${!readOnly}" type="submit" class="btn btn-primary radius">Aceptar</button>
 
-        <a th:if="${readOnly}" th:href="@{/localidades}" class="btn btn-primary radius">Aceptar</a>
+        <a th:if="${readOnly}" th:href="@{/departamentos}" class="btn btn-primary radius">Aceptar</a>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const paisSelect = document.getElementById('pais');
             const provinciaSelect = document.getElementById('provincia');
-            const departamentoSelect = document.getElementById('departamento');
 
             const provinciasByPais = {};
-            const departamentosByProvincia = {};
-            const localidadesByDepartamento = {};
 
             // Utility to populate a select
             function populateSelect(select, items, placeholder) {
@@ -90,7 +71,6 @@
                 const paisId = this.value;
                 if (!paisId) {
                     populateSelect(provinciaSelect, [], 'Seleccione provincia');
-                    populateSelect(departamentoSelect, [], 'Seleccione departamento');
                     return;
                 }
 
@@ -101,25 +81,6 @@
                     .then(response => response.json())
                     .then(data => {
                         populateSelect(provinciaSelect, data, 'Seleccione provincia');
-                        populateSelect(departamentoSelect, [], 'Seleccione departamento');
-                    });
-            });
-
-            // Fetch departamentos when provincia changes
-            provinciaSelect.addEventListener('change', function () {
-                const provinciaId = this.value;
-                if (!provinciaId) {
-                    populateSelect(departamentoSelect, [], 'Seleccione departamento');
-                    return;
-                }
-
-                fetch(`/api/departamentos?provinciaId=${provinciaId}`, {
-                    method: 'GET',
-                    credentials: 'include'
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        populateSelect(departamentoSelect, data, 'Seleccione departamento');
                     });
             });
 
