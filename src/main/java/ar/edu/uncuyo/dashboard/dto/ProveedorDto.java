@@ -16,7 +16,7 @@ public class ProveedorDto {
     private Long id;
 
     @NotBlank(message = "Debe indicar el CUIT")
-    @Size(min = 11, max = 11, message = "El CUIT debe tener 11 dígitos")
+    @Size(min = 11, max = 13, message = "El CUIT debe tener entre 11 y 13 dígitos")
     private String cuit;
 
     @Valid

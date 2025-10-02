@@ -1,10 +1,13 @@
 package ar.edu.uncuyo.dashboard.init;
 
-import ar.edu.uncuyo.dashboard.dto.PaisDto;
+import ar.edu.uncuyo.dashboard.dto.*;
 import ar.edu.uncuyo.dashboard.entity.*;
 import ar.edu.uncuyo.dashboard.init.geo.*;
 import ar.edu.uncuyo.dashboard.repository.*;
+import ar.edu.uncuyo.dashboard.service.EmpresaService;
 import ar.edu.uncuyo.dashboard.service.PaisService;
+import ar.edu.uncuyo.dashboard.service.ProveedorService;
+import ar.edu.uncuyo.dashboard.service.UsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +36,9 @@ public class DataInitialization implements CommandLineRunner {
     private final ProvinciaRepository provinciaRepository;
     private final DepartamentoRepository departamentoRepository;
     private final LocalidadRepository localidadRepository;
+    private final UsuarioService usuarioService;
+    private final EmpresaService empresaService;
+    private final ProveedorService proveedorService;
 
     @Override
     @Transactional
@@ -57,12 +63,8 @@ public class DataInitialization implements CommandLineRunner {
         crearUsuarios();
         crearPaises();
         cargarUbicaciones();
-//        crearEmpresa();
-//        crearSucursales();
-//        crearSocios();
-//        crearEmpleados();
-//        crearValoresCuota();
-//        crearCuotas();
+        crearEmpresas();
+        crearProveedores();
 
         // Resetear los permisos
         SecurityContextHolder.clearContext();
@@ -168,15 +170,141 @@ public class DataInitialization implements CommandLineRunner {
 
     @Transactional
     protected void crearUsuarios() {
-        Usuario usuario = Usuario.builder()
-                .nombre("Pepe")
-                .apellido("Argento")
-                .correoElectronico("pepeargento@gmail.com")
-                .cuenta("pepeargento@gmail.com")
-                .telefono("11 6473 9202")
-                .clave(passwordEncoder.encode("1234"))
-                .build();
+        usuarioService.crearUsuario(UsuarioCreateFormDto.builder()
+                .persona(PersonaDto.builder()
+                        .nombre("Pepe")
+                        .apellido("Argento")
+                        .correoElectronico("pepeargento@gmail.com")
+                        .telefono("11 6473 9202")
+                        .build())
+                .clave("1234")
+                .confirmacionClave("1234")
+                .build());
 
-        usuarioRepository.save(usuario);
+        usuarioService.crearUsuario(UsuarioCreateFormDto.builder()
+                .persona(PersonaDto.builder()
+                        .nombre("Moni")
+                        .apellido("Argento")
+                        .correoElectronico("moniargento@gmail.com")
+                        .telefono("11 5213 5701")
+                        .build())
+                .clave("1234")
+                .confirmacionClave("1234")
+                .build());
+
+        usuarioService.crearUsuario(UsuarioCreateFormDto.builder()
+                .persona(PersonaDto.builder()
+                        .nombre("Michael")
+                        .apellido("Jackson")
+                        .correoElectronico("michaeljackson@gmail.com")
+                        .telefono("1 661 124 1208")
+                        .build())
+                .clave("1234")
+                .confirmacionClave("1234")
+                .build());
+    }
+
+    @Transactional
+    protected void crearEmpresas() {
+        empresaService.crearEmpresa(EmpresaDto.builder()
+                .razonSocial("MercadoLibre")
+                .direccion(DireccionDto.builder()
+                        .localidadId(3986L)
+                        .barrio("Mitre")
+                        .calle("Tronador")
+                        .numeracion("4890")
+                        .latitud(-34.5474519636095)
+                        .longitud(-58.49047582443312)
+                        .build())
+                .build());
+
+        empresaService.crearEmpresa(EmpresaDto.builder()
+                .razonSocial("IMPSA")
+                .direccion(DireccionDto.builder()
+                        .localidadId(519L)
+                        .barrio("San Francisco del Monte")
+                        .calle("Carril Rodriguez Peña")
+                        .numeracion("2451")
+                        .latitud(-32.932142)
+                        .longitud(-68.813204)
+                        .build())
+                .build());
+
+        empresaService.crearEmpresa(EmpresaDto.builder()
+                .razonSocial("ENTel")
+                .direccion(DireccionDto.builder()
+                        .localidadId(4003L)
+                        .barrio("San Nicolás")
+                        .calle("Av. Corrientes")
+                        .numeracion("707")
+                        .build())
+                .build());
+
+        empresaService.crearEmpresa(EmpresaDto.builder()
+                .razonSocial("INVAP")
+                .direccion(DireccionDto.builder()
+                        .localidadId(2931L)
+                        .barrio("San Carlos de Bariloche")
+                        .calle("Av. Cmte. Luis Piedrabuena")
+                        .numeracion("4950")
+                        .latitud(-41.124049)
+                        .longitud(-71.243401)
+                        .build())
+                .build());
+    }
+
+    @Transactional
+    protected void crearProveedores() {
+        proveedorService.crearProveedor(ProveedorDto.builder()
+                .cuit("20-26810335-8")
+                .persona(PersonaDto.builder()
+                        .nombre("Javier")
+                        .apellido("Fernández")
+                        .correoElectronico("javierfernandez@gmail.com")
+                        .telefono("11 5128 5481")
+                        .build())
+                .direccion(DireccionDto.builder()
+                        .localidadId(3989L)
+                        .barrio("San Telmo")
+                        .calle("Balcarce")
+                        .numeracion("50")
+                        .latitud(-34.608283)
+                        .longitud(-58.370951)
+                        .build())
+                .build());
+
+        proveedorService.crearProveedor(ProveedorDto.builder()
+                .cuit("19-32943302-9")
+                .persona(PersonaDto.builder()
+                        .nombre("Jaime")
+                        .apellido("Pérez")
+                        .correoElectronico("jaimeperez@gmail.com")
+                        .telefono("261 521 8801")
+                        .build())
+                .direccion(DireccionDto.builder()
+                        .localidadId(509L)
+                        .barrio("5ta. Sección")
+                        .calle("Av. Emilio Civit")
+                        .numeracion("4500")
+                        .latitud(-32.887574)
+                        .longitud(-68.856305)
+                        .build())
+                .build());
+
+        proveedorService.crearProveedor(ProveedorDto.builder()
+                .cuit("27-28546812-5")
+                .persona(PersonaDto.builder()
+                        .nombre("Alicia")
+                        .apellido("Gutierrez")
+                        .correoElectronico("pedrogutierrez@gmail.com")
+                        .telefono("261 250 5523")
+                        .build())
+                .direccion(DireccionDto.builder()
+                        .localidadId(3985L)
+                        .barrio("Puerto Argentino")
+                        .calle("Ross Road")
+                        .numeracion("50")
+                        .build())
+                .build());
     }
 }
