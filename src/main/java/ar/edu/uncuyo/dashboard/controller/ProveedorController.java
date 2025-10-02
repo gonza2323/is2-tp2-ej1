@@ -4,7 +4,6 @@ import ar.edu.uncuyo.dashboard.dto.*;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.pdf.PdfGenerator;
 import ar.edu.uncuyo.dashboard.service.*;
-import ar.edu.uncuyo.dashboard.txt.TxtImporter;
 import com.itextpdf.text.DocumentException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -130,11 +129,10 @@ public class ProveedorController {
                 .body(resource);
     }
 
-    @GetMapping("/importar-txt")
+    @PostMapping("/importar-txt")
     public String importarProveedores(Model model) {
-        List<ProveedorDto> proveedores = proveedorService.importarDesdeTxt();
-        model.addAttribute("proveedores", proveedores);
-        return prepararVistaLista(model);
+        proveedorService.importarDesdeTxt();
+        return "redirect:" + redirectLista;
     }
 
 

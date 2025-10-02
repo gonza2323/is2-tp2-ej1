@@ -56,7 +56,6 @@ public class DataInitialization implements CommandLineRunner {
         // Nos damos permisos para poder crear los datos iniciales
         var auth = new UsernamePasswordAuthenticationToken("system", null);
         SecurityContextHolder.getContext().setAuthentication(auth);
-
         System.out.println("Creando datos iniciales...");
 
         // Creación de datos iniciales

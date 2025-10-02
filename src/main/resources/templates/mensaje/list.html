@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='usuarios')}">
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='mensajes')}">
 
 <head>
     <title>ABM Mensaje</title>
@@ -42,7 +42,7 @@
                         <i class="fas fa-eye fa-fw"></i>
                     </a>
                     <form th:action="@{/usuarios/{id}/baja(id=${mensaje.id})}" method="post" style="display:inline"
-                          th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar este usuario?\')'">
+                          th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar este mensaje?\')'">
                         <button type="submit" class="btn btn-danger btn-sm">
                             <i class="fas fa-trash fa-fw"></i>
                         </button>
