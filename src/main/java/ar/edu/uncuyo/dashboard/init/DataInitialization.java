@@ -16,6 +16,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -68,8 +72,8 @@ public class DataInitialization implements CommandLineRunner {
 
     @Transactional
     protected void crearPaises() {
-        paisService.crearPais(new PaisDto(1L, "Argentina"));
-        paisService.crearPais(new PaisDto(2L, "España"));
+        paisService.crearPais(new PaisDto(null, "Argentina"));
+        paisService.crearPais(new PaisDto(null, "España"));
     }
 
     @Transactional
@@ -77,68 +81,89 @@ public class DataInitialization implements CommandLineRunner {
         Pais argentina = paisRepository.findById(1L)
                 .orElseThrow(() -> new IllegalStateException("Argentina no encontrada"));
 
-        loadProvincias(argentina);
-        loadDepartamentos();
-        loadLocalidades();
+        Map<Long, Provincia> provinciaMap = loadProvincias(argentina);
+        Map<Long, Departamento> departamentoMap = loadDepartamentos(provinciaMap);
+        loadLocalidades(departamentoMap);
     }
 
     @Transactional
-    protected void loadProvincias(Pais argentina) throws IOException {
+    protected Map<Long, Provincia> loadProvincias(Pais argentina) throws IOException {
         InputStream is = getClass().getResourceAsStream("/data/provincias.json");
         ProvinciasWrapper wrapper = objectMapper.readValue(is, ProvinciasWrapper.class);
+
+        Map<Long, Provincia> provinciaMap = new HashMap<>(wrapper.getProvincias().size());
 
         for (ProvinciaDTO dto : wrapper.getProvincias()) {
             Long id = dto.getIdAsLong();
             if (!provinciaRepository.existsById(id)) {
                 Provincia provincia = new Provincia();
-                provincia.setId(id);
                 provincia.setNombre(dto.getNombre());
                 provincia.setPais(argentina);
-                provinciaRepository.save(provincia);
+                provinciaMap.put(dto.getIdAsLong(), provincia);
             }
         }
+        provinciaRepository.saveAll(provinciaMap.values());
+
+        return provinciaMap;
     }
 
     @Transactional
-    protected void loadDepartamentos() throws IOException {
+    protected Map<Long, Departamento> loadDepartamentos(Map<Long, Provincia> provinciaMap) throws IOException {
         InputStream is = getClass().getResourceAsStream("/data/departamentos.json");
         DepartamentosWrapper wrapper = objectMapper.readValue(is, DepartamentosWrapper.class);
+
+        Map<Long, Departamento> departamentoMap = new HashMap<>(wrapper.getDepartamentos().size());
 
         for (DepartamentoDTO dto : wrapper.getDepartamentos()) {
             Long id = dto.getIdAsLong();
             if (!departamentoRepository.existsById(id)) {
                 Long provinciaId = dto.getProvincia().getIdAsLong();
-                Provincia provincia = provinciaRepository.findById(provinciaId)
-                        .orElseThrow(() -> new IllegalStateException("Provincia not found: " + provinciaId));
+                Provincia provincia = provinciaMap.get(provinciaId);
+                if (provincia == null) {
+                    throw new IllegalStateException("Provincia no encontrada, id: " + provinciaId);
+                }
 
                 Departamento departamento = new Departamento();
-                departamento.setId(id);
                 departamento.setNombre(dto.getNombre());
                 departamento.setProvincia(provincia);
-                departamentoRepository.save(departamento);
+                departamentoMap.put(dto.getIdAsLong(), departamento);
             }
         }
+
+        departamentoRepository.saveAll(departamentoMap.values());
+        return departamentoMap;
     }
 
     @Transactional
-    protected void loadLocalidades() throws IOException {
+    protected void loadLocalidades(Map<Long, Departamento> departamentoMap) throws IOException {
         InputStream is = getClass().getResourceAsStream("/data/localidades.json");
         LocalidadesWrapper wrapper = objectMapper.readValue(is, LocalidadesWrapper.class);
+
+        List<Localidad> localidadesToSave = new ArrayList<>(wrapper.getLocalidades().size());
+        int postalCodeCounter = 1;
 
         for (LocalidadDTO dto : wrapper.getLocalidades()) {
             Long id = dto.getIdAsLong();
             if (!localidadRepository.existsById(id)) {
                 Long departamentoId = dto.getDepartamento().getIdAsLong();
-                Departamento departamento = departamentoRepository.findById(departamentoId)
-                        .orElseThrow(() -> new IllegalStateException("Departamento not found: " + departamentoId));
+                Departamento departamento = departamentoMap.get(departamentoId);
+                if (departamento == null)
+                    new IllegalStateException("Departamento no encontrado, id: " + departamentoId);
 
                 Localidad localidad = new Localidad();
-                localidad.setId(id);
                 localidad.setNombre(dto.getNombre());
                 localidad.setDepartamento(departamento);
-                localidadRepository.save(localidad);
+
+                Provincia provincia = departamento.getProvincia();
+                String provinceInitial = provincia.getNombre().substring(0, 1).toUpperCase();
+                String numberPart = String.format("%04d", postalCodeCounter++);
+                localidad.setCodigoPostal(provinceInitial + numberPart);
+
+                localidadesToSave.add(localidad);
             }
         }
+
+        localidadRepository.saveAll(localidadesToSave);
     }
 
     @Transactional

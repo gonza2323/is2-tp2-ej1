@@ -16,7 +16,7 @@ public class ProvinciaController {
     private final ProvinciaService provinciaService;
 
     @ResponseBody
-    @GetMapping("/provincias")
+    @GetMapping("/api/provincias")
     List<ProvinciaDto> buscarProvinciasPorPais(@Param("paisId") Long paisId) {
         return provinciaService.buscarProvinciaPorPais(paisId);
     }

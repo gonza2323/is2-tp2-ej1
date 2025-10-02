@@ -14,6 +14,14 @@ public class LocalidadResumenDto {
 
     private String nombre;
 
+    private String codigoPostal;
+
+    private Long paisId;
+
+    private Long provinciaId;
+
+    private Long departamentoId;
+
     private String paisNombre;
 
     private String provinciaNombre;
