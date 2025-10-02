@@ -17,11 +17,11 @@ public class PdfGenerator {
     public static void generarPdf(List<ProveedorDto> proveedores) throws DocumentException, FileNotFoundException {
         Document doc = new Document();
 
-        PdfWriter.getInstance(doc, new FileOutputStream("empleados.pdf"));
+        PdfWriter.getInstance(doc, new FileOutputStream("proveedores.pdf"));
 
         doc.open();
         // Título
-        doc.add(new Paragraph("Lista de Empleados"));
+        doc.add(new Paragraph("Lista de Proveedores"));
         doc.add(Chunk.NEWLINE);
 
         PdfPTable table = new PdfPTable(4);

@@ -117,13 +117,13 @@ public class ProveedorController {
         List<ProveedorDto> proveedores = proveedorService.listarProveedoresDtos();
         // Ruta del PDF generado
 
-        String pdfPath = "empleados.pdf";
+        String pdfPath = "proveedores.pdf";
         PdfGenerator.generarPdf(proveedores);
 
         InputStreamResource resource = new InputStreamResource(new FileInputStream(pdfPath));
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=sample.pdf") // 👈 "inline" lo abre en el navegador
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=proveedores.pdf") // 👈 "inline" lo abre en el navegador
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }
