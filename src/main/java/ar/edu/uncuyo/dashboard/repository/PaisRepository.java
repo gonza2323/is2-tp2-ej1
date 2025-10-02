@@ -12,4 +12,6 @@ public interface PaisRepository extends JpaRepository<Pais, Long> {
 
     List<Pais> findAllByEliminadoFalseOrderByNombre();
     Optional<Pais> findByIdAndEliminadoFalse(Long id);
+
+    Optional<Pais> findByNombreAndEliminadoFalse(String nombrePais);
 }

@@ -13,4 +13,6 @@ public interface ProvinciaRepository extends JpaRepository<Provincia, Long> {
     Optional<Provincia> findByIdAndEliminadoFalse(Long id);
     List<Provincia> findAllByEliminadoFalseOrderByNombre();
     List<Provincia> findAllByPaisIdAndEliminadoFalseOrderByNombre(Long paisId);
+
+    Optional<Provincia> findByNombreAndEliminadoFalse(String nombreProvincia);
 }

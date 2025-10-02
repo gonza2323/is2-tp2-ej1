@@ -12,8 +12,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DireccionMapper {
 
-    @Mapping(target = "localidad", ignore = true)
+    //@Mapping(target = "localidad", ignore = true)
+    @Mapping(target = "localidad.id", source = "localidadId")
     Direccion toEntity(DireccionDto dto);
+
 
     @Mapping(target = "localidad", ignore = true)
     void updateEntityFromDto(DireccionDto dto, @MappingTarget Direccion direccion);

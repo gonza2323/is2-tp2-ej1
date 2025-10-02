@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DireccionDto {
+
     private Long id;
 
     @NotBlank(message = "Debe indicar la calle")
@@ -50,4 +51,9 @@ public class DireccionDto {
 
     @NotNull(message = "Debe seleccionar una localidad")
     private Long localidadId;
+
+    private String nombreLocalidad;
+    private String nombreDepartamento;
+    private String nombreProvincia;
+    private String nombrePais;
 }

@@ -12,6 +12,10 @@ import java.util.List;
 public interface ProveedorMapper {
     @Mapping(target = "direccion", ignore = true)
     @Mapping(target = "eliminado", ignore = true)
+    @Mapping(target = "nombre", source = "persona.nombre")
+    @Mapping(target = "apellido", source = "persona.apellido")
+    @Mapping(target = "telefono", source = "persona.telefono")
+    @Mapping(target = "correoElectronico", source = "persona.correoElectronico")
     Proveedor toEntity(ProveedorDto dto);
 
     @Mapping(target = "direccion", ignore = true)
@@ -23,6 +27,8 @@ public interface ProveedorMapper {
     @Mapping(target = "persona.apellido", source = "apellido")
     @Mapping(target = "persona.correoElectronico", source = "correoElectronico")
     @Mapping(target = "persona.telefono", source = "telefono")
+    @Mapping(target = "direccion.localidadId", source = "direccion.localidad.id")
+    @Mapping(target = "direccion.departamentoId", source = "direccion.localidad.departamento.id")
     @Mapping(target = "nombreProvincia", source = "direccion.localidad.departamento.provincia.nombre")
     @Mapping(target = "nombrePais", source = "direccion.localidad.departamento.provincia.pais.nombre")
     ProveedorDto toDto(Proveedor proveedor);

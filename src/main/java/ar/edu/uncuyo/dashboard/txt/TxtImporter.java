@@ -1,5 +1,7 @@
 package ar.edu.uncuyo.dashboard.txt;
 
+import ar.edu.uncuyo.dashboard.dto.DireccionDto;
+import ar.edu.uncuyo.dashboard.dto.PersonaDto;
 import ar.edu.uncuyo.dashboard.dto.ProveedorDto;
 import ar.edu.uncuyo.dashboard.repository.LocalidadRepository;
 import org.springframework.stereotype.Component;
@@ -29,20 +31,28 @@ public class TxtImporter {
                 String line = sc.nextLine();
                 System.out.println(line);
                 String[] parts = line.split(";");
+
                 System.out.println(Arrays.stream(parts).toList());
-                System.out.println(parts[0]);
-                ProveedorDto proveedor = new ProveedorDto();
-                //proveedor.setId(Long.parseLong(parts[0]));
-                proveedor.getPersona().setNombre(parts[0]);
-                proveedor.getPersona().setApellido(parts[1]);
-                proveedor.getPersona().setTelefono(parts[2]);
-                proveedor.getPersona().setCorreoElectronico(parts[3]);
-                proveedor.setCuit(parts[4]);
-                proveedor.getDireccion().setCalle(parts[5]);
-                proveedor.getDireccion().setNumeracion(parts[6]);
-                String localidad = parts[7]; //ver tema localidad y id
-                //long idLocalidad = localidadRepository.findByNombreAndEliminadoFalse(localidad).getId();
-                //proveedor.getDireccion().setLocalidadId(idLocalidad);
+
+                ProveedorDto proveedor = ProveedorDto.builder()
+                        .cuit(parts[4])
+                        .persona(PersonaDto.builder()
+                                .nombre(parts[0])
+                                .apellido(parts[1])
+                                .telefono(parts[2])
+                                .correoElectronico(parts[3])
+                                .build())
+                        .direccion(DireccionDto.builder()
+                                .calle(parts[5])
+                                .numeracion(parts[6])
+                                // acá solo vienen los nombres, los IDs se resuelven en el Service
+                                .nombreLocalidad(parts[7])
+                                .nombreDepartamento(parts[8])
+                                .nombreProvincia(parts[9])
+                                .nombrePais(parts[10])
+                                .build())
+                        .build();
+
                 proveedores.add(proveedor);
             }
             sc.close();

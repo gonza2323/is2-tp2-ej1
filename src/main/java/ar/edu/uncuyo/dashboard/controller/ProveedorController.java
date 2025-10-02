@@ -46,7 +46,7 @@ public class ProveedorController {
         return prepararVistaLista(model);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public String detalleProveedor(Model model, @PathVariable Long id) {
         ProveedorDto proveedor = proveedorService.buscarProveedorDto(id);
         return prepararVistaDetalle(model, proveedor);
@@ -130,11 +130,9 @@ public class ProveedorController {
                 .body(resource);
     }
 
-    @GetMapping("/importar")
+    @GetMapping("/importar-txt")
     public String importarProveedores(Model model) {
-        TxtImporter txtImporter = new TxtImporter();
-        List<ProveedorDto> proveedores = txtImporter.leerArchivo();
-
+        List<ProveedorDto> proveedores = proveedorService.importarDesdeTxt();
         model.addAttribute("proveedores", proveedores);
         return prepararVistaLista(model);
     }

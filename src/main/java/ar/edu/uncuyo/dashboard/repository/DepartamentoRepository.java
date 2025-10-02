@@ -14,4 +14,6 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, Long
     Optional<Departamento> findByIdAndEliminadoFalse(Long id);
     List<Departamento> findAllByEliminadoFalseOrderByNombre();
     List<Departamento> findAllByProvinciaIdAndEliminadoFalseOrderByNombre(Long provinciaId);
+
+    Optional<Departamento> findByNombreAndEliminadoFalse(String nombreDepartamento);
 }
