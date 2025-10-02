@@ -23,7 +23,7 @@ public class DepartamentoService {
     @Transactional
     public Departamento buscarDepartamento(Long id) {
         return departamentoRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException("NoExiste.departamento"));
+                .orElseThrow(() -> new BusinessException("El departamento no existe"));
     }
 
     @Transactional

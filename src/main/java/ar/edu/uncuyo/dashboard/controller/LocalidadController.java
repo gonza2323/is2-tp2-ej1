@@ -22,7 +22,6 @@ public class LocalidadController {
     private final LocalidadService localidadService;
 
     private final String vistaLista = "/localidad/localidadLista";
-    private final String vistaDetalle = "/localidad/localidadDetalle";
     private final String vistaAlta = "/localidad/localidadAlta";
     private final String vistaEdicion = "/localidad/localidadEdit";
     private final String redirectLista = "/localidades";
@@ -127,11 +126,6 @@ public class LocalidadController {
     private String prepararVistaFormularioEdicion(Model model, LocalidadDto localidad) {
         prepararVistaFormulario(model, localidad);
         return vistaEdicion;
-    }
-
-    private String prepararVistaDetalle(Model model, LocalidadDto localidad) {
-        prepararVistaFormulario(model, localidad);
-        return vistaDetalle;
     }
 
     @ResponseBody

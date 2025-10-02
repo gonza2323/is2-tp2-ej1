@@ -2,10 +2,10 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='departamentos')}">
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='paises')}">
 
 <head>
-    <title>ABM Departamento</title>
+    <title>ABM País</title>
 </head>
 
 <body id="page-top">
@@ -15,8 +15,8 @@
 
     <!-- Page Heading -->
     <div class="d-flex align-items-center mb-3 flex-wrap">
-        <h1 class="h3 m-0 mr-3 text-gray-800">Departamentos</h1>
-        <a th:href="@{/departamentos/alta}" class="btn btn-primary radius">Agregar departamento</a>
+        <h1 class="h3 m-0 mr-3 text-gray-800">Países</h1>
+        <a th:href="@{/paises/alta}" class="btn btn-primary radius">Agregar país</a>
     </div>
 
     <!-- Tabla -->
@@ -24,27 +24,19 @@
         <table class="table table-striped table-bordered align-middle" id="dataTable" style="display: none">
             <thead class="table-light">
             <tr>
-                <th style="display: none">paisId</th>
-                <th style="display: none">provinciaId</th>
                 <th>Nombre</th>
-                <th>País</th>
-                <th>Provincia</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="departamento : ${departamentos}">
-                <td th:text="${departamento.paisId}" style="display: none">asd</td>
-                <td th:text="${departamento.provinciaId}" style="display: none">asd</td>
-                <td th:text="${departamento.nombre}">Nombre</td>
-                <td th:text="${departamento.paisNombre}">País</td>
-                <td th:text="${departamento.provinciaNombre}">Provincia</td>
+            <tr th:each="pais : ${paises}">
+                <td th:text="${pais.nombre}">Nombre</td>
                 <td>
-                    <a th:href="@{/departamentos/{id}/edit(id=${departamento.id})}" class="btn btn-warning btn-sm me-1" title="Editar">
+                    <a th:href="@{/paises/{id}/edit(id=${pais.id})}" class="btn btn-warning btn-sm me-1" title="Editar">
                         <i class="fas fa-edit fa-fw"></i>
                     </a>
-                    <form th:action="@{/departamentos/{id}/baja(id=${departamento.id})}" method="post" style="display:inline"
-                          th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar este departamento?\')'">
+                    <form th:action="@{/paises/{id}/baja(id=${pais.id})}" method="post" style="display:inline"
+                          th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar este pais?\')'">
                         <button type="submit" class="btn btn-danger btn-sm">
                             <i class="fas fa-trash fa-fw"></i>
                         </button>
@@ -71,7 +63,7 @@
                 ordering: true,
                 search: true,
                 columnDefs: [
-                    { orderable: false, targets: 5 }
+                    { orderable: false, targets: 1 }
                 ],
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/es-MX.json',

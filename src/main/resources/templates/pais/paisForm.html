@@ -1,0 +1,21 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:fragment="paisForm(actionUrl, readOnly)"
+      th:action="@{${actionUrl}}" th:object="${pais}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="nombre">Nombre *</label>
+            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre"  th:disabled="${readOnly}">
+            <div th:if="${#fields.hasErrors('nombre')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('nombre')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a th:if="${!readOnly}" th:href="@{/paises}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
+        <button th:if="${!readOnly}" type="submit" class="btn btn-primary radius">Aceptar</button>
+
+        <a th:if="${readOnly}" th:href="@{/paises}" class="btn btn-primary radius">Aceptar</a>
+    </div>
+</form>

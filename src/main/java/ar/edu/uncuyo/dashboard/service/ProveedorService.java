@@ -22,8 +22,6 @@ public class ProveedorService {
     private final DireccionService direccionService;
     private final TxtImporter txtImporter;
 
-
-
     @Transactional
     public Proveedor buscarProveedor(Long id) {
         return proveedorRepository.findByIdAndEliminadoFalse(id)

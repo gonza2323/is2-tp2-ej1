@@ -23,7 +23,6 @@ public class DepartamentoController {
     private final DepartamentoService departamentoService;
 
     private final String vistaLista = "/departamento/departamentoLista";
-    private final String vistaDetalle = "/departamento/departamentoDetalle";
     private final String vistaAlta = "/departamento/departamentoAlta";
     private final String vistaEdicion = "/departamento/departamentoEdit";
     private final String redirectLista = "/departamentos";
@@ -122,11 +121,6 @@ public class DepartamentoController {
     private String prepararVistaFormularioEdicion(Model model, DepartamentoDto departamento) {
         prepararVistaFormulario(model, departamento);
         return vistaEdicion;
-    }
-
-    private String prepararVistaDetalle(Model model, DepartamentoDto departamento) {
-        prepararVistaFormulario(model, departamento);
-        return vistaDetalle;
     }
 
     @ResponseBody

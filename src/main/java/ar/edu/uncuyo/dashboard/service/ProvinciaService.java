@@ -23,7 +23,7 @@ public class ProvinciaService {
     @Transactional
     public Provincia buscarProvincia(Long id) {
         return provinciaRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException("NoExiste.provincia"));
+                .orElseThrow(() -> new BusinessException("La provincia no existe"));
     }
 
     @Transactional

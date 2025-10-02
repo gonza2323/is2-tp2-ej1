@@ -21,7 +21,6 @@ public class ProvinciaController {
     private final ProvinciaService provinciaService;
 
     private final String vistaLista = "/provincia/provinciaLista";
-    private final String vistaDetalle = "/provincia/provinciaDetalle";
     private final String vistaAlta = "/provincia/provinciaAlta";
     private final String vistaEdicion = "/provincia/provinciaEdit";
     private final String redirectLista = "/provincias";
@@ -113,11 +112,6 @@ public class ProvinciaController {
     private String prepararVistaFormularioEdicion(Model model, ProvinciaDto provincia) {
         prepararVistaFormulario(model, provincia);
         return vistaEdicion;
-    }
-
-    private String prepararVistaDetalle(Model model, ProvinciaDto provincia) {
-        prepararVistaFormulario(model, provincia);
-        return vistaDetalle;
     }
 
     @ResponseBody
