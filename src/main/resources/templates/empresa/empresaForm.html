@@ -181,7 +181,7 @@
                     return;
                 }
 
-                fetch(`/provincias?paisId=${paisId}`, {
+                fetch(`/api/provincias?paisId=${paisId}`, {
                     method: 'GET',
                     credentials: 'include'
                 })
@@ -202,7 +202,7 @@
                     return;
                 }
 
-                fetch(`/departamentos?provinciaId=${provinciaId}`, {
+                fetch(`/api/departamentos?provinciaId=${provinciaId}`, {
                     method: 'GET',
                     credentials: 'include'
                 })
@@ -221,7 +221,7 @@
                     return;
                 }
 
-                fetch(`/localidades?departamentoId=${departamentoId}`, {
+                fetch(`/api/localidades?departamentoId=${departamentoId}`, {
                     method: 'GET',
                     credentials: 'include'
                 })

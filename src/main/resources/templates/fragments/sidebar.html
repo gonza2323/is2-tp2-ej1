@@ -28,17 +28,17 @@
         Gestión
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Usuarios Collapse Menu -->
     <li class="nav-item"
         th:classappend="${#lists.contains({'usuarios', 'cambiar-clave'}, activePage)} ? ' active'">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseUsuarios"
            aria-expanded="true" aria-controls="collapseUsuarios">
-            <i class="fas fa-fw fa-cog fa-fw"></i>
+            <i class="fas fa-fw fa-user fa-fw"></i>
             <span>Usuarios</span>
         </a>
         <div id="collapseUsuarios" class="collapse"
              th:classappend="${#lists.contains({'usuarios', 'cambiar-clave'}, activePage)} ? ' show'"
-             aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+             aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
                    th:classappend="${activePage == 'usuarios'} ? ' active'"
@@ -50,12 +50,12 @@
         </div>
     </li>
 
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Dirección Collapse Menu -->
     <li class="nav-item"
         th:classappend="${#lists.contains({'paises', 'provincias', 'departamentos', 'localidades'}, activePage)} ? ' active'">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseDireccion"
            aria-expanded="true" aria-controls="collapseDireccion">
-            <i class="fas fa-fw fa-cog fa-fw"></i>
+            <i class="fas fa-fw fa-map-marker-alt fa-fw"></i>
             <span>Dirección</span>
         </a>
         <div id="collapseDireccion" class="collapse"
@@ -64,26 +64,26 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
                    th:classappend="${activePage == 'paises'} ? ' active'"
-                   href="#">ABM País</a>
+                   href="/paises">ABM País</a>
                 <a class="collapse-item"
                    th:classappend="${activePage == 'provincias'} ? ' active'"
-                   href="#">ABM Provincia</a>
+                   href="/provincias">ABM Provincia</a>
                 <a class="collapse-item"
                    th:classappend="${activePage == 'departamentos'} ? ' active'"
-                   href="#">ABM Departamento</a>
+                   href="/departamentos">ABM Departamento</a>
                 <a class="collapse-item"
                    th:classappend="${activePage == 'localidades'} ? ' active'"
-                   href="#">ABM Localidad</a>
+                   href="/localidades">ABM Localidad</a>
             </div>
         </div>
     </li>
 
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Empresas Collapse Menu -->
     <li class="nav-item"
         th:classappend="${#lists.contains({'empresas'}, activePage)} ? ' active'">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseEmpresa"
            aria-expanded="true" aria-controls="collapseEmpresa">
-            <i class="fas fa-fw fa-cog fa-fw"></i>
+            <i class="fas fa-fw fa-building fa-fw"></i>
             <span>Empresa</span>
         </a>
         <div id="collapseEmpresa" class="collapse"
@@ -97,12 +97,12 @@
         </div>
     </li>
 
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Proveedor Collapse Menu -->
     <li class="nav-item"
         th:classappend="${#lists.contains({'proveedores'}, activePage)} ? ' active'">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseProveedor"
            aria-expanded="true" aria-controls="collapseProveedor">
-            <i class="fas fa-fw fa-cog fa-fw"></i>
+            <i class="fas fa-fw fa-truck fa-fw"></i>
             <span>Proveedor</span>
         </a>
         <div id="collapseProveedor" class="collapse"
@@ -133,7 +133,7 @@
         Interface
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Components Collapse Menu -->
     <li class="nav-item"
         th:classappend="${#lists.contains({'buttons','cards'}, activePage)} ? ' active'">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo"

@@ -2,22 +2,34 @@ package ar.edu.uncuyo.dashboard.controller;
 
 import ar.edu.uncuyo.dashboard.dto.*;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
+import ar.edu.uncuyo.dashboard.pdf.PdfGenerator;
 import ar.edu.uncuyo.dashboard.service.*;
+import ar.edu.uncuyo.dashboard.txt.TxtImporter;
+import com.itextpdf.text.DocumentException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/proveedores")
 @RequiredArgsConstructor
+
 public class ProveedorController {
 
     private final ProveedorService proveedorService;
+    private final PdfGenerator pdfGenerator;
+
 
     private final String vistaLista = "/proveedor/proveedorLista";
     private final String vistaDetalle = "/proveedor/proveedorDetalle";
@@ -101,6 +113,32 @@ public class ProveedorController {
             return prepararVistaLista(model);
         }
     }
+
+    @GetMapping("/pdf")
+    public ResponseEntity<InputStreamResource> verPdf() throws FileNotFoundException, DocumentException {
+        List<ProveedorDto> proveedores = proveedorService.listarProveedoresDtos();
+        // Ruta del PDF generado
+
+        String pdfPath = "proveedores.pdf";
+        PdfGenerator.generarPdf(proveedores);
+
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(pdfPath));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=proveedores.pdf") // 👈 "inline" lo abre en el navegador
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
+    }
+
+    @GetMapping("/importar")
+    public String importarProveedores(Model model) {
+        TxtImporter txtImporter = new TxtImporter();
+        List<ProveedorDto> proveedores = txtImporter.leerArchivo();
+
+        model.addAttribute("proveedores", proveedores);
+        return prepararVistaLista(model);
+    }
+
 
     private String prepararVistaLista(Model model) {
         List<ProveedorDto> proveedores = proveedorService.listarProveedoresDtos();

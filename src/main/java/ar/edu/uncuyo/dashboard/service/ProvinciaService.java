@@ -21,6 +21,12 @@ public class ProvinciaService {
     private final ProvinciaMapper provinciaMapper;
 
     @Transactional
+    public Provincia buscarProvincia(Long id) {
+        return provinciaRepository.findByIdAndEliminadoFalse(id)
+                .orElseThrow(() -> new BusinessException("La provincia no existe"));
+    }
+
+    @Transactional
     public ProvinciaDto buscarProvinciaDto(Long id) {
         Provincia provincia = buscarProvincia(id);
         return provinciaMapper.toDto(provincia);
@@ -40,9 +46,7 @@ public class ProvinciaService {
         Pais pais = paisService.buscarPais(provinciaDto.getPaisId());
 
         Provincia provincia = provinciaMapper.toEntity(provinciaDto);
-        provincia.setId(null);
         provincia.setPais(pais);
-        provincia.setEliminado(false);
         provinciaRepository.save(provincia);
     }
 
@@ -51,7 +55,7 @@ public class ProvinciaService {
         Provincia provincia = buscarProvincia(provinciaDto.getId());
 
         if (provinciaRepository.existsByNombreAndIdNotAndPaisIdAndEliminadoFalse(provinciaDto.getNombre(), provinciaDto.getId(), provinciaDto.getPaisId()))
-            throw new BusinessException("YaExiste.provincia.nombre");
+            throw new BusinessException("Ya existe una provincia con ese nombre en ese país");
 
         Pais pais = paisService.buscarPais(provinciaDto.getPaisId());
 
@@ -65,11 +69,6 @@ public class ProvinciaService {
         Provincia provincia = buscarProvincia(id);
         provincia.setEliminado(true);
         provinciaRepository.save(provincia);
-    }
-
-    public Provincia buscarProvincia(Long id) {
-        return provinciaRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException("NoExiste.provincia"));
     }
 
     public List<ProvinciaDto> buscarProvinciaPorPais(Long paisId) {

@@ -19,10 +19,15 @@ public class LocalidadDto {
     @Size(max = 100, message = "Máximo 100 caracteres")
     private String nombre;
 
-    @NotBlank(message = "Debe indicar un código postal")
-    @Size(max = 20, message = "Máximo 20 caracteres")
+    @Size(min = 4, max = 10, message = "Entre 4 y 10 caracteres")
     private String codigoPostal;
 
     @NotNull(message = "Debe indicar el departamento")
     private Long departamentoId;
+
+    @NotNull(message = "Debe indicar la provincia")
+    private Long provinciaId;
+
+    @NotNull(message = "Debe indicar el país")
+    private Long paisId;
 }

@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class Provincia {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
