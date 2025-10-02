@@ -21,4 +21,7 @@ public class DepartamentoDto {
 
     @NotNull(message = "Debe indicar la provincia")
     private Long provinciaId;
+
+    @NotNull(message = "Debe indicar el país")
+    private Long paisId;
 }

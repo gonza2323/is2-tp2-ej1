@@ -16,7 +16,7 @@ public class DepartamentoController {
     private final DepartamentoService departamentoService;
 
     @ResponseBody
-    @GetMapping("/departamentos")
+    @GetMapping("/api/departamentos")
     List<DepartamentoDto> buscarProvinciasPorPais(@Param("provinciaId") Long provinciaId) {
         return departamentoService.buscarDepartamentosPorProvincia(provinciaId);
     }

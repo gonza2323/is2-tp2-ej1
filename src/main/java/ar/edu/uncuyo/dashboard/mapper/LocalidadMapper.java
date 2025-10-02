@@ -21,10 +21,15 @@ public interface LocalidadMapper {
     void updateEntityFromDto(LocalidadDto dto, @MappingTarget Localidad localidad);
 
     @Mapping(target = "departamentoId", source = "departamento.id")
+    @Mapping(target = "provinciaId", source = "departamento.provincia.id")
+    @Mapping(target = "paisId", source = "departamento.provincia.pais.id")
     LocalidadDto toDto(Localidad localidad);
 
     List<LocalidadDto> toDtos(List<Localidad> localidades);
 
+    @Mapping(target = "departamentoId", source = "departamento.id")
+    @Mapping(target = "provinciaId", source = "departamento.provincia.id")
+    @Mapping(target = "paisId", source = "departamento.provincia.pais.id")
     @Mapping(target = "departamentoNombre", source = "departamento.nombre")
     @Mapping(target = "provinciaNombre", source = "departamento.provincia.nombre")
     @Mapping(target = "paisNombre", source = "departamento.provincia.pais.nombre")

@@ -1,6 +1,7 @@
 package ar.edu.uncuyo.dashboard.repository;
 
 import ar.edu.uncuyo.dashboard.entity.Localidad;
+import ar.edu.uncuyo.dashboard.entity.Pais;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,6 +11,7 @@ public interface LocalidadRepository extends JpaRepository<Localidad, Long> {
     boolean existsByNombreAndDepartamentoIdAndEliminadoFalse(String nombre, Long deparamentoId);
     boolean existsByNombreAndIdNotAndDepartamentoIdAndEliminadoFalse(String nombre, Long id, Long departamentoId);
 
+    List<Localidad> findAllByEliminadoFalseOrderByNombre();
     Optional<Localidad> findByIdAndEliminadoFalse(Long id);
     List<Localidad> findAllByDepartamentoIdAndEliminadoFalseOrderByNombre(Long departamentoId);
 }
