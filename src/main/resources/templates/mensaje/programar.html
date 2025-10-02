@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='mensajes')}">
+
+<head>
+    <title>Programar Mensaje</title>
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content" class="container-fluid">
+
+    <div th:if="${msgError}" class="alert alert-danger" role="alert" th:text="${msgError}">Mensaje de error</div>
+
+    <h1 class="h3 mb-4 text-gray-800">Programar mensaje</h1>
+
+    <form th:fragment="mensajeProgramarForm(actionUrl, readOnly)"
+          th:with="formAction=${actionUrl} ?: '/mensajes/programar'"
+          th:action="@{${formAction}}"
+          th:object="${mensajeDto}"
+          method="post">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="proveedorId">Proveedor *</label>
+                <select th:field="*{proveedorId}"
+                        class="form-control"
+                        id="proveedorId"
+                        th:disabled="${readOnly}">
+                    <option value="">Seleccione proveedor</option>
+                    <option th:each="proveedor : ${proveedores}"
+                            th:value="${proveedor.id}"
+                            th:text="${proveedor.persona.apellido + ', ' + proveedor.persona.nombre}">
+                        Proveedor
+                    </option>
+                </select>
+                <div th:if="${#fields.hasErrors('proveedorId')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('proveedorId')}" th:text="${err}"></div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="nombre">Nombre *</label>
+                <input type="text"
+                       th:field="*{nombre}"
+                       class="form-control"
+                       id="nombre"
+                       placeholder="Nombre del destinatario"
+                       th:disabled="${readOnly}">
+                <div th:if="${#fields.hasErrors('nombre')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('nombre')}" th:text="${err}"></div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="correoElectronico">Correo electrónico *</label>
+                <input type="email"
+                       th:field="*{correoElectronico}"
+                       class="form-control"
+                       id="correoElectronico"
+                       placeholder="Correo electrónico del destinatario"
+                       th:disabled="${readOnly}">
+                <div th:if="${#fields.hasErrors('correoElectronico')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('correoElectronico')}" th:text="${err}"></div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="asunto">Asunto *</label>
+                <input type="text"
+                       th:field="*{asunto}"
+                       class="form-control"
+                       id="asunto"
+                       placeholder="Asunto del mensaje"
+                       th:disabled="${readOnly}">
+                <div th:if="${#fields.hasErrors('asunto')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('asunto')}" th:text="${err}"></div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="fechaProgramada">Fecha programada</label>
+                <input type="datetime-local"
+                       th:field="*{fechaProgramada}"
+                       class="form-control"
+                       id="fechaProgramada"
+                       placeholder="Fecha y hora"
+                       th:disabled="${readOnly}">
+                <div th:if="${#fields.hasErrors('fechaProgramada')}" class="text-danger mt-1"
+                     th:each="err : ${#fields.errors('fechaProgramada')}" th:text="${err}"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cuerpo">Contenido *</label>
+            <textarea th:field="*{cuerpo}"
+                      class="form-control"
+                      id="cuerpo"
+                      rows="6"
+                      placeholder="Contenido del mensaje"
+                      th:disabled="${readOnly}"></textarea>
+            <div th:if="${#fields.hasErrors('cuerpo')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('cuerpo')}" th:text="${err}"></div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            <a th:if="${!readOnly}"
+               th:href="@{/mensajes}"
+               class="btn btn-outline-primary radius mr-3">Cancelar</a>
+            <button th:if="${!readOnly}" type="submit" class="btn btn-primary radius">Aceptar</button>
+
+            <a th:if="${readOnly}"
+               th:href="@{/mensajes}"
+               class="btn btn-primary radius">Aceptar</a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
