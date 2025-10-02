@@ -43,10 +43,6 @@ public class MensajeService {
 
     private static final String REMITENTE = "gimnasiosport21@gmail.com";
 
-    // =========================================================
-    // CRUD
-    // =========================================================
-
     @Transactional(readOnly = true)
     public List<Mensaje> listar(MensajeDTO filtro) {
         return mensajeRepository.findAllByEliminadoFalse();
@@ -75,6 +71,7 @@ public class MensajeService {
 
         enviarCorreo(dto, proveedor);
 
+        mensajeRepository.save(m);
         return guardado;
     }
 
@@ -112,10 +109,6 @@ public class MensajeService {
         m.setEliminado(true);
         mensajeRepository.save(m);
     }
-
-    // =========================================================
-    // Envío de correo
-    // =========================================================
 
     public void enviarCorreo(MensajeDTO dto, Proveedor proveedor) {
         if (dto == null || proveedor == null) return;
@@ -166,9 +159,6 @@ public class MensajeService {
         }
     }
 
-    // =========================================================
-    // Validación y normalización
-    // =========================================================
 
     private void validarMensaje(MensajeDTO dto) {
         if (dto == null) {

@@ -6,6 +6,7 @@ import ar.edu.uncuyo.dashboard.entity.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
