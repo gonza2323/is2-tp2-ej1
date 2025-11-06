@@ -1,6 +1,7 @@
 package ar.edu.uncuyo.dashboard.controller;
 
 import ar.edu.uncuyo.dashboard.dto.*;
+import ar.edu.uncuyo.dashboard.excel.ExcelGenerator;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.service.*;
 import jakarta.validation.Valid;
@@ -10,6 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 @Controller
@@ -22,6 +28,7 @@ public class EmpresaController {
     private final ProvinciaService provinciaService;
     private final DepartamentoService departamentoService;
     private final LocalidadService localidadService;
+    private final ExcelGenerator excelGenerator;
 
     private final String vistaLista = "/empresa/empresaLista";
     private final String vistaDetalle = "/empresa/empresaDetalle";
@@ -100,6 +107,20 @@ public class EmpresaController {
             model.addAttribute("msgError", "Error de sistema");
             return prepararVistaLista(model);
         }
+    }
+
+    @GetMapping("/excel")
+    public ResponseEntity<byte[]> descargarEmpresasExcel() {
+        List<EmpresaDto> empresas = empresaService.listarEmpresasDtos();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        excelGenerator.exportarEmpresas(empresas, out);
+
+        byte[] contenido = out.toByteArray();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=empresas.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(contenido);
     }
 
     private String prepararVistaLista(Model model) {
